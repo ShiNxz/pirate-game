@@ -3,3 +3,4 @@ error_log
 /**/error_log
 .well-known
 cgi-bin
+inc/config.php

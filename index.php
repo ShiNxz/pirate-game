@@ -1,6 +1,10 @@
-<?php
-/* password = ZNCjs7fmZ6M3UVkp
-startapp_gamedev
-startapp_gamedev
-localhost
-*/
+<?
+require_once($_SERVER['DOCUMENT_ROOT'].'/includes/constructor.php');
+?>
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+
+<head>
+    <? // Meta
+	include_once "{$Root}/assets/components/meta.php"; ?>
+</head>

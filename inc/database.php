@@ -1,12 +1,7 @@
 <? // --========== Databases Config ==========--
 
-$servername = "127.0.0.1:3306";
-$dbname = "startapp_main";
-$username = "startapp_admin";
-$password = "ZBsk2ZTLwQc7AMWKxR5m";
-
-$db = mysqli_connect($servername, $username, $password, $dbname)
-or die ("Error during connection to database.");
+$db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE)
+or die ('<script language="javascript">alert("הראה שגיאה במהלך ההתחברות למסד הנתונים!")</script>');
 
 $db->query("SET NAMES 'utf8'");
 

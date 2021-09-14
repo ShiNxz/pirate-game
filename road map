@@ -1,2 +1,5 @@
 title | start time | finish time
-creating the first files / base & connect to db | 11:40
+
+creating the first back-end base files / & connect to db | 11:40 | 12:00
+creating the mysql users table | 12:10 | 12:15
+creating the base html files | 12:15

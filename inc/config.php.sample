@@ -1,0 +1,8 @@
+<?php
+// Database
+define("DB_HOST", "X:3306");
+define("DB_USER", "X");
+define("DB_PASSWORD", "X");
+define("DB_DATABASE", "X");
+
+define("URL", "X");
