@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap");
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    /* display: flex;
+    align-items: center;
+    background-color: #f5f5f5; */
+    font-family: "Heebo", sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    height: 1341px;
+    width: 2370px;
+    overflow: hidden;
+}
+
+.bg {
+    background-image: url("../img/bg1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a {
+    cursor: pointer;
+}
+
+.pirate-modal .modal-content {
+    background-color: unset!important;
+    border: 0;
+}
+
+.pirate-modal .modal-content .modal-header {
+    border-bottom: 1px solid #84684921;
+}
+
+.pirate-modal .modal-content .modal-footer {
+    border-top: 1px solid #84684921;
+}
+
+.pirate-modal .modal-dialog::before {
+    background: url('../img/modal-pirate.png') no-repeat 0 0;
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    background-position: center;
+    background-size: 100% 100%;
+    width: 200%;
+    height: auto;
+    max-width: 350%;
+    max-height: 100%;
+    right: -50%;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+}
+
+.game {
+    background: url('../img/game/bg.png') no-repeat 0 0;
+    background-position: left top;
+    height: 1341px;
+    width: 2370px;
+}
+
+.land {
+    position: absolute;
+    transition: .2s;
+}
+
+.land:hover {
+    filter: drop-shadow(0px 0px 3px #000000b9);
+    cursor: pointer;
+}
+
+.player {
+    position: absolute;
+    z-index: 1;
+    transition: 1s;
+}
+
+.player_img {
+    transition: .2s;
+}
+
+.player_img:hover {
+    filter: drop-shadow(0px 0px 3px #000000b9);
+}
+
+.modal-body {
+    direction: rtl;
+}

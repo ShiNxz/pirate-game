@@ -1,16 +1,18 @@
 <?php
 session_start();
 
+$Root = $_SERVER['DOCUMENT_ROOT'];
+
 // Load Functions
-foreach(glob($_SERVER['DOCUMENT_ROOT'].'/inc/functions/*.php') as $file){
+foreach(glob($Root.'/inc/functions/*.php') as $file){
     require $file;
 }
 
 // Load Config
-require $_SERVER['DOCUMENT_ROOT'].'/inc/config.php';
+require $Root.'/inc/config.php';
 
 // Load Database Connect
-require $_SERVER['DOCUMENT_ROOT'].'/inc/database.php';
+require $Root.'/inc/database.php';
 
 // --========== Login ==========--
 $logged = false;
