@@ -1,6 +1,19 @@
-title | start time | finish time
+title | start time : finish time
 
-creating the first back-end base files / & connect to db | 11:40 | 12:00
-creating the mysql users table | 12:10 | 12:15
-creating the register & login system | 12:15 | 15:00
-start using canvas and trying to make the base of the game | 15:15 |
+שלישי:
+creating the first back-end base files / & connect to db | 11:40 : 12:00
+creating the mysql users table | 12:10 : 12:15
+creating the register & login system | 12:15 : 15:00
+start using canvas and trying to make the base of the game | 15:15 : 17:00
+start using jquery instead to make the base | 17:00 : 19:00
+import the sprites of the game and position them | 19:00 : 19:20
+make dict arrays to store the sprites position | 19:20 : 19:40
+make the first "move" function to move the player straight to the island | 19:20 : 19:50
+make the functionality to move the player on the other islands before the selected one | 19:50 : 20:40
+
+רביעי:
+make backend function to record the user ip if he send abuse requests to the server | 8:00 : 8:40
+make backend function to check if the user sent abuse requests before | 8:00 : 8:40
+make one function that handle the game rounds | 7:30 : 10:00
+make the round cases with a modal that shows the result | 9:00 : 10:40
+build the round number cases (1-6) | 11:00 : 11:30

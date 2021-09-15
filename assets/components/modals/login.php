@@ -37,7 +37,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-				  <button type="submit" class="btn btn-outline-primary login-btn">התחבר</button>
+					<button type="button" class="btn btn-outline-secondary" onclick="$('#login').modal('hide');">ביטול</button>
+				  	<button type="submit" class="btn btn-outline-primary login-btn">התחבר</button>
 				</div>
 			</form>
 	  	</div>

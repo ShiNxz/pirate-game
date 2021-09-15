@@ -24,9 +24,12 @@
     							<div class="help-block with-errors"></div>
     						</div>
     					</div>
+						<div class="col-12 col-md-10">
+							<a class="mr-1" onclick="$('#login').modal('show'); $('#register').modal('hide');">יש ברשותי משתמש</a>
+						</div>
     				</div>
     				<div class="modal-footer">
-    				  <button type="button" class="btn btn-outline-secondary" onclick="$('#register').modal('hide'); $('#login').modal('show');">ביטול</button>
+    				  <button type="button" class="btn btn-outline-secondary" onclick="$('#register').modal('hide');">ביטול</button>
     				  <button type="submit" class="btn btn-outline-primary register-btn">הרשם</button>
     				</div>
     			</form>
