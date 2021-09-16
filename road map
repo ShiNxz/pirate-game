@@ -17,3 +17,12 @@ make backend function to check if the user sent abuse requests before | 8:00 : 8
 make one function that handle the game rounds | 7:30 : 10:00
 make the round cases with a modal that shows the result | 9:00 : 10:40
 build the round number cases (1-6) | 11:00 : 11:30
+logs function | 18:45 : 19:20
+register & login system | 19:20 : 20:00
+toggle sidebar option | 20:00 : 20:25
+extend the login feature | 20:25 : 20:50
+
+חמישי:
+count win and lose for logged in users | 10:51 : 11:09
+make a modal that shows the user his win / lose stats | 11:10 : 12:40
+make a modal that shoows the leaderboard | 12:45 : 13:42

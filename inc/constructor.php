@@ -30,21 +30,19 @@ if( isset( $_SESSION['user'] ) ) {
             $User = array (
                 "UserID"    =>   $userID,
                 "Email"     =>   $User["Email"],
-                "Username"  =>   $User["Username"],
-                "PName"     =>   $User["PName"],
-                "Timestamp" =>   $User["Timestamp"],
-                "Token"     =>   $User["Token"],
             );
             $logged = true;
+        } else {
+            session_unset();
+            session_destroy();
         }
     }
 }
 
 // --========== Requests ==========--
 // Logout
-if (isset($_GET["logout"]) && $_GET["page"]):
+if (isset($_GET["logout"])):
     session_destroy();
-    $page = $_GET["page"];
-    header("Location: $page");
+    header("Location: index.php");
     exit;
 endif;

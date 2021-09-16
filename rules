@@ -1,8 +1,0 @@
-MYSQL Users Table:
-ID = Automaticly.
-Email = Max 320 chars (protected by the back(x) and front(x) end).
-Password = Min 8 - Max 32 chars (protected by the back(x) and front(x) end).
-Points = the user global points, default on 0.
-Role = Automaticly created on 1; 1 = user, 2 = tester, 3 = admin.
-RegisteredIP;
-LastIP = last login IP address.

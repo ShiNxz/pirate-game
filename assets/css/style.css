@@ -14,8 +14,6 @@ body {
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.7;
-    height: 1080px;
-    width: 1920px;
     overflow: hidden;
 }
 
@@ -202,4 +200,39 @@ ol, ul {
 
 #over-desc {
     margin-bottom: 2rem;
+}
+
+.sidebar {
+    transition: 0.5s;
+}
+
+.sidebar.untoggled {
+    padding: 0 !important;
+    width: 0 !important;
+}
+
+.sidebar-collapse {
+    width: 0;
+    height: 10rem;
+    position: fixed;
+    z-index: 99;
+    right: 0;
+    margin-top: 20%;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: .5s;
+}
+
+.sidebar-collapse > .nav-link {
+    padding: 0.5rem 0.5rem !important;
+    font-size: 2rem !important;
+}
+
+.App {
+    overflow: hidden;
+    position: relative;
 }

@@ -118,16 +118,16 @@ let Game = {
     });
   },
   Start: function() {
-    if(!playable) return;
-    playable = false;
     // This is the main function, it will handle the player round to prevent the user abuse
     // First we will check if the user ip banned
+    if(!playable) return;
+    playable = false;
     $.ajax({
       type: "GET",
       url: 'assets/php/checkuser.php',
       dataType: 'text',
       success: async function(text){
-        if (text == "true"){
+        if (text == 'verified'){
           // User validated -> Start
           let results = await Dice.Roll();
           await Player.Land(results.num);
@@ -146,6 +146,7 @@ let Game = {
     $('#game-over').modal('hide');
     $('#dice').attr('data-side', 1);
     resetMap();
+    ToggleMenu(true);
     Player.Move(1);
     playable = true;
   },
@@ -160,12 +161,17 @@ let Game = {
       freelook = true;
       playable = false;
       resetMap();
+      ToggleMenu(false);
       tata.text('Browse Map', 'ניתן לגלול בחופשיות את המפה<br/>טיפ - ניתן ללחוץ על כל אי למידע נוסף', {
         position: 'tm',
         duration: 5000,
       });
       $('body').css('overflow', 'scroll');
+      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Cancel Browse Map');
+      $('#browse_map').css('background-color', '#fd0d0d');
     } else {
+      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Browse Map');
+      $('#browse_map').css('background-color', '#0d6efd');
       Game.New();
       freelook = false;
       tata.text('Browse Map', 'האפשרות בוטלה בהצלחה', {
@@ -190,23 +196,67 @@ function getLandInfo(land) {
   $('#land-info').modal('show');
 }
 
-function ShowMap() {
-  // https://api.jqueryui.com/draggable/
-  jQuery(".game").draggable({ 
-    cursor: "move", 
-    //containment: "parent",
-    //appendTo: "body"
-  });
+function ToggleMenu(i) {
+  if(i) {
+    // toggle on
+    $('.sidebar').removeClass('untoggled');
+    $('.sidebar-collapse').css('width', '0');
+  } else {
+    // toggle off
+    $('.sidebar').addClass('untoggled');
+    $('.sidebar-collapse').css('width', '3rem');
+  }
 }
 
 function resetMap() {
   window.scroll(0, 0); // Reset the screen to top left pose
 }
 
+function getStats() {
+  $.ajax({
+    type: "GET",
+    url: 'assets/php/stats.php',
+    dataType: 'json',
+    success: function(response) {
+      if(!response) return;
+      $('#wins').html(response.won);
+      $('#loses').html(response.lost);
+      $('#stats-modal').modal('show');
+    }
+  });
+}
+
+function leaderboard() {
+  $.ajax({
+    type: "GET",
+    url: 'assets/php/leaderboard.php',
+    dataType: 'json',
+    success: function(response) {
+      console.log(response);
+      if(!response) return;
+      let obj = '';
+      let i = 1;
+      response.forEach(row => {
+        obj += `
+        <tr>
+          <th scope="row">${i}</th>
+          <td>${row.email}</td>
+          <td>${row.wins}</td>
+          <td>${row.loses}</td>
+        </tr>`;
+        i++;
+      });
+      
+      $('.leaderboard').html(obj);
+      $('#leaderboard').modal('show');
+    }
+  });
+}
+
 $(document).ready(function() {
   'use strict';
 
-  screen.orientation.lock('landscape');
+  //screen.orientation.lock('landscape');
 
 
   var isMobile = false; 
@@ -220,8 +270,8 @@ $(document).ready(function() {
   }
   resetMap();
 
-  $('body').css('height', window.innerHeight);
-  $('body').css('width', window.innerWidth);
+  $('.App').css('height', window.innerHeight);
+  $('.App').css('width', window.innerWidth);
 });
 
 function ShowPassword(input){

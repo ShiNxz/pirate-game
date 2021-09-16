@@ -5,16 +5,16 @@ $ReqIP = $_SERVER['REMOTE_ADDR'];
 $Req = basename(__FILE__, '.php');
 
 if(checkAbuse($ReqIP))
-    exit('false');
+    exit();
 
 // Check if the request sent with ajax, if not, get the user ip -> insert it to the banned db
 if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
     abuseReq($ReqIP, $Req);
-    exit('false');
+    exit();
 }
 if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     abuseReq($ReqIP, $Req);
-    exit('false');
+    exit();
 }
 
-exit('true');
+exit('verified');

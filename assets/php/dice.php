@@ -80,11 +80,36 @@ if( empty( $_SESSION["Result"] ) || $_SESSION["Result"] != 0) {
             $results["status"]["code"]  = "won";
         break;
     }
-    
-    if($results["status"]["code"] == "won") {
+
+    if($results["status"]["code"] == "won")
+    {
         // won
-    } else if($results["status"]["code"] == "lost") {
+        logAction("Player Rolled Number {$number} and Won");
+        if($logged) {
+            // give the logged player 1 win
+            if($stmt = $db->prepare("UPDATE `Users` SET `Won` = `Won` + 1 WHERE ID = ?"))
+            {
+                $stmt->bind_param("s", $User["UserID"]);
+                $stmt->execute();
+            }
+        }
+    }
+    else if($results["status"]["code"] == "lost")
+    {
         // lost
+        logAction("Player got number {$number} and lost");
+        if($logged) {
+            // give the logged player 1 lost
+            if($stmt = $db->prepare("UPDATE `Users` SET `Lost` = `Lost` + 1 WHERE ID = ?"))
+            {
+                $stmt->bind_param("s", $User["UserID"]);
+                $stmt->execute();
+            }
+        }
+    }
+    else
+    {
+        logAction('Player got random quote');
     }
 
     exit(json_encode($results));

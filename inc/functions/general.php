@@ -13,3 +13,16 @@ function generateRandom($min = 1, $max = 20) {
     endif;
     return rand($min, $max); // old
 }
+
+function logAction($Action) {
+    global $db;
+
+    $IP = $_SERVER['REMOTE_ADDR'];
+    $Time = time();
+
+    if($stmt = $db->prepare("INSERT INTO `Actions` (`IP`, `Action`, `Timestamp`) VALUES (?, ?, ?)"))
+    {
+        $stmt->bind_param("sss", $IP, $Action, $Time);
+        $stmt->execute();
+    }
+}
