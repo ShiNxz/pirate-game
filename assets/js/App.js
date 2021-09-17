@@ -1,15 +1,15 @@
-let playable = false;
-let freelook = false;
+let playable = false; // make default on false
+let freelook = false; // make default on false
 
 let Player = {
   Init: function() {
-    $('.player').html(`<img src="assets/img/game/pirate.png" class="player_img">`);
-    $('.player').css("left", Lands[1].pleft);
-    $('.player').css("top", Lands[1].ptop);
-    playable = true;
-    resetMap();
+    // initialize the player
+    $('.player').html(`<img src="assets/img/game/pirate.png" class="player_img">`); // append the player image
+    $('.player').css("left", Lands[1].pleft); // set the location of the player to the first island
+    $('.player').css("top", Lands[1].ptop); // set the location of the player to the first island
   },
   Land: async function(land) {
+    // land the user on every land before the selected land
     if(land == 1)
       return Player.Move(1);
     for (let steps = 2; steps < land+1; steps++) {
@@ -19,14 +19,16 @@ let Player = {
     return;
   },
   Move: function(i) {
-    window.scroll(Lands[i].scroll_right, Lands[i].scroll_bottom);
-    $('.player').css("left", Lands[i].pleft);
-    $('.player').css("top", Lands[i].ptop);
+    // land the user on the selected land
+    window.scroll(Lands[i].scroll_right, Lands[i].scroll_bottom); // change the window location so it will follow the player
+    $('.player').css("left", Lands[i].pleft); // change the player div location
+    $('.player').css("top", Lands[i].ptop); // change the player div location
   }
 }
 
 let Dice = {
   Roll: function() {
+    // send server side function to get random number and give the player win/lose
     return new Promise(async resolve => 
     {
       $.ajax({
@@ -37,22 +39,23 @@ let Dice = {
             dice.dataset.side = response.num;
             dice.classList.toggle("reRoll");
             await wait(1500);
-            resolve(response);
+            resolve(response); // return the selected number
         }
       });
     });
   }
 }
 
+// lands configuration
 let Lands = {
   1: {
-    left: 200,
-    top: 350,
-    pleft: 280,
-    ptop: 130,
-    scroll_right: 0,
-    scroll_bottom: 0,
-    description: "לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית קולהע צופעט למרקוח איבן איף, ברומץ כלרשט מיחוצים. קלאצי סחטיר בלובק. תצטנפל בלינדו למרקל אס לכימפו, דול, צוט ומעיוט - לפתיעם ברשג - ולתיעם גדדיש. קוויז דומור ליאמום בלינך רוגצה. לפמעט",
+    left: 200, // the land left pixels
+    top: 350, // the land top pixels
+    pleft: 280, // the player left pixels on the land
+    ptop: 130, // the player top pixels on the land
+    scroll_right: 0, // how many pixels to scroll right when landing the player in this island
+    scroll_bottom: 0,  // how many pixels to scroll down when landing the player in this island
+    description: "לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית קולהע צופעט למרקוח איבן איף, ברומץ כלרשט מיחוצים. קלאצי סחטיר בלובק. תצטנפל בלינדו למרקל אס לכימפו, דול, צוט ומעיוט - לפתיעם ברשג - ולתיעם גדדיש. קוויז דומור ליאמום בלינך רוגצה. לפמעט", // the island description when clicking on an island
   },
   2: {
     left: 900,
@@ -103,30 +106,35 @@ let Lands = {
 
 let Game = {
   Init: function() {
-    resetMap();
-    Player.Init();
+    // initialize the game
+    resetMap(); // reset the window location
+    Player.Init(); // initialize the player
     let i = 1;
+    // initialize the lands
     Object.values(Lands).forEach(Land => {
       $('.lands').append(`
       <div class="land" onclick="getLandInfo(${i})" id="land${i}">
         <img src="assets/img/game/lands/${i}.png" class="land_img" alt="land${i}">
       </div>
       `);
-      $(`#land${i}`).css("left", Land.left);
-      $(`#land${i}`).css("top", Land.top);
+      $(`#land${i}`).css("left", Land.left); // set he land position
+      $(`#land${i}`).css("top", Land.top); // set he land position
       i++;
     });
+    playable = true; // after the init => make the game playable
   },
   Start: function() {
-    // This is the main function, it will handle the player round to prevent the user abuse
-    // First we will check if the user ip banned
-    if(!playable) return;
-    playable = false;
+    // This is the main function, it will handle the player round to prevent user abuse
+    if(!playable) return; // if the game isn't initialized
+    playable = false; // change playable to false to prevent multiple games at the same time
+    
+    // send ajax request to check if the user isn't ip banned
     $.ajax({
       type: "GET",
       url: 'assets/php/checkuser.php',
       dataType: 'text',
       success: async function(text){
+        console.log(text);
         if (text == 'verified'){
           // User validated -> Start
           let results = await Dice.Roll();
@@ -143,46 +151,55 @@ let Game = {
   });
   },
   New: function() {
-    $('#game-over').modal('hide');
-    $('#dice').attr('data-side', 1);
-    resetMap();
-    ToggleMenu(true);
-    Player.Move(1);
-    playable = true;
+    // reset the current game and start a new one
+    $('#game-over').modal('hide'); // hide the game-over modal
+    $('#dice').attr('data-side', 1); // reset the dice to 1
+    resetMap(); // reset the window location
+    ToggleMenu(true); // toggle the side menu on
+    Player.Move(1); // reset the player location to land 1
+    playable = true; // make the game playable again
   },
   Finish: function(results) {
+    // show the player the game results after he rolled the dice
     $('#over-title').html(results.status.title);
     $('#over-desc').html(results.status.desc);
     $('#game-over').modal('show');
   },
   FreeLook: function() {
-    if(!freelook) {
-      if(!playable) return;
-      freelook = true;
-      playable = false;
-      resetMap();
-      ToggleMenu(false);
+    // give the user an option to scroll and see the map
+    if(!freelook) { // if the isn't user already in freelook mode =>
+      if(!playable) return; // check if the user rolled the dice
+      freelook = true; // set the freelook mode to true
+      playable = false; // set the game mode to false => means the player cant roll the dice while free look mode
+      resetMap(); // reset the window location
+      ToggleMenu(false); // toggle the sidemenu for better view (optional)
+      // alert the user that the mode is on ->
       tata.text('Browse Map', 'ניתן לגלול בחופשיות את המפה<br/>טיפ - ניתן ללחוץ על כל אי למידע נוסף', {
         position: 'tm',
         duration: 5000,
       });
-      $('body').css('overflow', 'scroll');
-      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Cancel Browse Map');
-      $('#browse_map').css('background-color', '#fd0d0d');
-    } else {
-      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Browse Map');
-      $('#browse_map').css('background-color', '#0d6efd');
-      Game.New();
-      freelook = false;
-      tata.text('Browse Map', 'האפשרות בוטלה בהצלחה', {
+      $('body').css('overflow', 'scroll'); // make it possible to scroll the page
+      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Cancel Browse Map'); // change the button text
+      $('#browse_map').css('background-color', '#fd0d0d'); // make the button red
+    } else { // if the player is already in freelook mode =>
+      $('#browse_map').html('<i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i> Browse Map'); // change the button text to the default
+      $('#browse_map').css('background-color', '#0d6efd'); // change the button to the default color
+      Game.New(); // reset the game
+      freelook = false; // set the freelook mode to false
+      tata.text('Browse Map', 'האפשרות בוטלה בהצלחה', { // alert the user
         position: 'tm',
         duration: 5000,
       });
-      $('body').css('overflow', 'hidden');
+      $('body').css('overflow', 'hidden'); // make it impossible to scroll the window
     }
   }
 }
 
+/**
+ * pause the current function x miliseconds
+ * 
+ * @param {type} int Miliseconds.  
+**/
 function wait(time) {
   return new Promise(resolve => {
       setTimeout(() => {
@@ -191,11 +208,21 @@ function wait(time) {
   });
 }
 
+/**
+ * get the selected land info as a modal
+ * 
+ * @param {type} int land id.  
+**/
 function getLandInfo(land) {
   $('h3#land-info').html(`${Lands[land].description}`);
   $('#land-info').modal('show');
 }
 
+/**
+ * toggle on / off the sidemenu
+ * 
+ * @param {type} boolean true -> toggle on / false -> toggle off.  
+**/
 function ToggleMenu(i) {
   if(i) {
     // toggle on
@@ -208,11 +235,18 @@ function ToggleMenu(i) {
   }
 }
 
+/**
+ * reset the window location to 0x,0y
+**/
 function resetMap() {
   window.scroll(0, 0); // Reset the screen to top left pose
 }
 
+/**
+ * get the logged user stats
+**/
 function getStats() {
+  // get the logged user stats (wins/loses) and show the stats modal
   $.ajax({
     type: "GET",
     url: 'assets/php/stats.php',
@@ -226,6 +260,9 @@ function getStats() {
   });
 }
 
+/**
+ * show a modal with the leaderboard sorted by wins
+**/
 function leaderboard() {
   $.ajax({
     type: "GET",
@@ -256,9 +293,7 @@ function leaderboard() {
 $(document).ready(function() {
   'use strict';
 
-  //screen.orientation.lock('landscape');
-
-
+  // check if the user using mobile
   var isMobile = false; 
   if( /Android|webOS|iPhone|iPod|iPad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       $('html').addClass('touch');
@@ -267,13 +302,27 @@ $(document).ready(function() {
   else {
       $('html').addClass('no-touch');
       isMobile = false;
+      Game.Init();
   }
-  resetMap();
 
-  $('.App').css('height', window.innerHeight);
-  $('.App').css('width', window.innerWidth);
+  // if the user using mobile then check if he using portrait or landscape mode
+  if(isMobile) {
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      alert('שגיאה! על מנת לשחק עליך להעביר את מכשיר הטלפון למצב landscape');
+    }
+    window.addEventListener("orientationchange", function(event) {
+      if(event.target.screen.orientation.angle == 90 || event.target.screen.orientation.angle == 180) {
+        Game.Init();
+      }
+    });
+  }
 });
 
+/**
+ * change the form input from password to text and the opposite
+ * 
+ * @param {type} forminput the password form input.  
+**/
 function ShowPassword(input){
   if ($(input)[0].type === "password") {
     $(input)[0].type = "text";

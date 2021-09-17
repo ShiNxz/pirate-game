@@ -1,6 +1,11 @@
 <?
 
-// Store the user IP if he abusing the requests
+/**
+ * Store the user IP if he abusing the requests
+ * 
+ * @param string The user ip address.
+ * @param string The php script.
+**/
 function abuseReq($ip, $request) {
     global $db;
 
@@ -11,7 +16,14 @@ function abuseReq($ip, $request) {
     }
 }
 
-// Check if the user IP abused requests before
+/**
+ * Check if the user IP abused requests before
+ * 
+ * @param string The user ip address.
+ * @param string The maximum requests to accept, default to 5.
+ * 
+ * @return boolean
+**/
 function checkAbuse($ip, $max = 5) {
     global $db;
     

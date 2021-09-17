@@ -1,27 +1,34 @@
 <?
 require $_SERVER['DOCUMENT_ROOT'].'/inc/constructor.php';
 
-$ReqIP = $_SERVER['REMOTE_ADDR'];
-$Req = basename(__FILE__, '.php');
+$ReqIP = $_SERVER['REMOTE_ADDR']; // get the request ip
+$Req = basename(__FILE__, '.php'); // get the current php script name
 
-if(checkAbuse($ReqIP))
+if(checkAbuse($ReqIP)) // check if the user has more than 4 failed requests and block him
     exit('false');
 
+// Check if the request sent with ajax, if not, get the user ip -> insert it to the banned db
 if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
     abuseReq($ReqIP, $Req);
     exit();
 }
+// confirm the request sent as GET request
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    abuseReq($ReqIP, $Req);
+    exit();
+}
+
+if(!isset($_SERVER['HTTP_REFERER'])) {
     abuseReq($ReqIP, $Req);
     exit();
 }
 
 // EMAIL
 if (isset($_POST['email'])) {
-    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) { // check if the email is valid email
         exit('יש להקליד כתובת אימייל תקינה!');
     } else {
-        $email = strtolower($_POST['email']);
+        $email = strtolower($_POST['email']); // lowercase the email chars
     }
 } else {
     exit('יש להקליד כתובת אימייל');

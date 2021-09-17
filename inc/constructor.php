@@ -30,6 +30,7 @@ if( isset( $_SESSION['user'] ) ) {
             $User = array (
                 "UserID"    =>   $userID,
                 "Email"     =>   $User["Email"],
+                "Role"     =>   $User["Role"],
             );
             $logged = true;
         } else {

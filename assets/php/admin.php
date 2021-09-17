@@ -7,7 +7,7 @@ $Req = basename(__FILE__, '.php'); // get the current php script name
 if(checkAbuse($ReqIP)) // check if the user has more than 4 failed requests and block him
     exit('false');
 
-if(!isset($_SERVER['HTTP_REFERER'])) {
+if(!isset($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] != URL.'/') {
     abuseReq($ReqIP, $Req);
     exit();
 }
@@ -27,19 +27,26 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 if(!$logged)
     exit();
 
-if($stmt = $db->prepare("SELECT Won, Lost FROM Users WHERE ID = ?"))
+// check if the user has role 2+
+if($User["Role"] < 2)
+    exit();
+
+if($stmt = $db->prepare("SELECT * FROM Actions"))
 {
-    $stmt->bind_param("s", $User["UserID"]);
     $stmt->execute();
     $result = $stmt->get_result();
     if($result->num_rows >= 1)
     {
-        $row = $result->fetch_assoc();
-        $results = array(
-            'won'  => $row["Won"],
-            'lost' => $row["Lost"]
-        );
-        exit(json_encode($results)); // convert the array to json and return it
+        $array = array();
+        while($row = $result->fetch_assoc()) {
+            $results = array(
+                'ip'  => $row["IP"],
+                'action' => $row["Action"],
+                'timestamp' => toTimeName($row["Timestamp"])
+            );
+            array_push($array, $results);
+        }
+        exit(json_encode($array)); // convert the array to json and return it
     }
     else
     {

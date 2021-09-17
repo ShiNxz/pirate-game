@@ -8,7 +8,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/inc/constructor.php');
     <? // Meta
 	include_once "{$Root}/assets/components/meta.php"; ?>
 </head>
-<body onload="Game.Init()">
+<body>
 
     <? // Sidebar
     include_once "{$Root}/assets/components/sidebar.php"; ?>
@@ -37,4 +37,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/inc/constructor.php');
 
     <? // Modal: Leaderboard
     include_once "{$Root}/assets/components/modals/leaderboard.php"; ?>
+
+    <? // Modal: Admin Menu
+    include_once "{$Root}/assets/components/modals/admin.php"; ?>
 </body>

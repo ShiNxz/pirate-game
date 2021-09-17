@@ -8,22 +8,27 @@
   </a>
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item mb-3">
-        <a onclick="ToggleMenu(false)" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-arrow-right"></i>Close Menu</a>
-      </li>
-      <li class="nav-item mb-3">
-        <a onclick="Game.FreeLook()" id="browse_map" class="nav-link active"><i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i>Browse map</a>
-      </li>
-      <li class="nav-item mb-5">
-        <a href="#" onclick="leaderboard()" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-dice"></i>Leaderboard</a>
-      </li>
-      <li class="nav-item mb-5">
-        <a href="#" onclick="Game.Start()" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-dice"></i>Roll a dice!</a>
-      </li>
-      <li class="nav-item" style="height:400px;flex-wrap: wrap;display: flex;align-content: center;justify-content: center;">
-          <? // Modal: Land Info
-          include_once "{$Root}/assets/components/dice.php"; ?>
-      </li>
+    <li class="nav-item mb-3">
+      <a onclick="ToggleMenu(false)" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-arrow-right"></i>Close Menu</a>
+    </li>
+    <li class="nav-item mb-3">
+      <a onclick="Game.FreeLook()" id="browse_map" class="nav-link active"><i style="margin-right: 0.5rem;" class="far fa-hand-paper"></i>Browse map</a>
+    </li>
+    <li class="nav-item mb-5">
+      <a onclick="leaderboard()" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-dice"></i>Leaderboard</a>
+    </li>
+    <? if($User["Role"] >= 2): ?>
+    <li class="nav-item mb-5">
+      <a onclick="adminMenu()" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-dice"></i>Admin Menu</a>
+    </li>
+    <? endif; ?>
+    <li class="nav-item mb-5">
+      <a onclick="Game.Start()" class="nav-link active"><i style="margin-right: 0.5rem;" class="fas fa-dice"></i>Roll a dice!</a>
+    </li>
+    <li class="nav-item" style="flex-wrap: wrap;display: flex;align-content: center;justify-content: center;">
+      <? // Modal: Land Info
+      include_once "{$Root}/assets/components/dice.php"; ?>
+    </li>
   </ul>
   <hr>
   <? if($logged) { ?>
